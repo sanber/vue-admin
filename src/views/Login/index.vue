@@ -31,7 +31,7 @@
             type="password"
             v-model="ruleForm.pass"
             autocomplete="off"
-            placeholder="确认密码"
+            placeholder="请输入6-20位的数字加字母的密码"
             show-password="true"
           ></el-input>
         </el-form-item>
@@ -83,8 +83,11 @@ export default {
       }
     };
     var validatePass = (rule, value, callback) => {
+      let reg = /^(?!\D+$)(?![^a-zA-Z]+$)\S{6,20}$/;
       if (value === "") {
         callback(new Error("请输入密码"));
+      } else if (!reg.test(value)) {
+        callback(new Error("密码为6-20的数字+字母"));
       } else {
         callback();
       }
