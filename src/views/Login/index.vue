@@ -16,7 +16,7 @@
         :model="ruleForm"
         status-icon
         :rules="rules"
-        ref="ruleForm"
+        ref="loginForm"
         class="demo-ruleForm"
       >
         <el-form-item prop="email">
@@ -61,7 +61,7 @@
           <el-button
             type="primary"
             round
-            @click="submitForm('ruleForm')"
+            @click="submitForm('loginForm')"
             class="submitBtn"
           >
             提交
@@ -73,6 +73,7 @@
 </template>
 
 <script>
+import service from "@/utils/request";
 import {
   stripscript,
   emailValidate,
@@ -82,7 +83,8 @@ import {
 import { isRef, onMounted, reactive, ref, toRefs } from "@vue/composition-api";
 export default {
   name: "Login",
-  setup(props, context) {
+  // setup(props, context) {
+  setup(props, { refs }) {
     //验证验证码
     var checkCode = (rule, value, callback) => {
       // let reg = /^[a-z0-9]{6}$/;
@@ -145,7 +147,7 @@ export default {
     ]);
     //模块值
     const model = ref("login");
-    console.log(model.value);
+    console.log(model.value); //login
     //isRef判断是否是一个基础数据类型还是对象数据类型
     console.log(isRef(model) ? true : false); //true
     console.log(isRef(menuList) ? true : false); //false
@@ -168,7 +170,7 @@ export default {
     const { x, y } = useMousePosition();
     console.log(x + y);
     console.log("props的值：" + props);
-    console.log("context的值：" + context);
+    // console.log("context的值：" + context);
     //表单绑定数据
     const ruleForm = reactive({
       email: "",
@@ -214,7 +216,7 @@ export default {
       // console.log(this.menuList, item);
     };
     const submitForm = formName => {
-      this.$refs[formName].validate(valid => {
+      refs[formName].validate(valid => {
         if (valid) {
           alert("submit!");
         } else {
